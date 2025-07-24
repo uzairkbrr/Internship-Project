@@ -13,6 +13,7 @@ def show_mental_health_tab():
   user_id = st.session_state.user_id
   profile = get_user_profile(user_id)
 
+  st.checkbox("Memory Mode", key="memory_mode")
   user_input = st.text_area("How are you feeling today?", key="mental_input")
 
   if st.button("Send"):
@@ -35,4 +36,5 @@ def show_mental_health_tab():
     llm_response = chat_with_llm(messages)
     st.write("Assistant:", llm_response)
 
-    save_memory_entry(user_id, user_input, llm_response, emotion=None)  # Emotion detection can be added later
+    if st.session_state.memory_mode:
+      save_memory_entry(user_id, user_input, llm_response, emotion=None)  # Emotion can be added later

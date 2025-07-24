@@ -1,11 +1,17 @@
 import streamlit as st
+from database.database import get_user_profile
 
 def show_diet_tab():
-  st.subheader("Diet Tracker")
+  st.header("Diet Tracker")
 
-  st.text_input("Enter your meal (e.g., 2 eggs and toast)")
+  if "user_id" not in st.session_state:
+    st.warning("Please complete your user profile in the Dashboard first.")
+    return
 
-  uploaded_img = st.file_uploader("Upload Meal Photo", type=["jpg", "jpeg", "png"])
+  user_id = st.session_state.user_id
+  profile = get_user_profile(user_id)
 
-  if st.button("Analyze"):
-    st.success("Diet analysis will be shown here.")
+  st.write("Your dietary preference:", profile[7])
+  st.write("Fitness goal:", profile[5])
+
+  # Additional functionality for meal input, image upload, etc. will go here
